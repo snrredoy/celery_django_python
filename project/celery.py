@@ -1,6 +1,6 @@
 import os
 from time import sleep
-
+from datetime import timedelta
 from celery import Celery
 
 # Set the default Django settings module for the 'celery' program.
@@ -23,20 +23,30 @@ def add(x, y):
     sleep(10)
     return x + y
 
+# using normal schedule
+# app.conf.beat_schedule = {
+#     'every_25_seconds': {
+#         'task': 'celeryPractice.tasks.add1',
+#         'schedule': 25,
+#         'args': (20, 20),
+#     }
+# }
+
+# using timedelta
 app.conf.beat_schedule = {
     'every_25_seconds': {
         'task': 'celeryPractice.tasks.add1',
-        'schedule': 25,
+        'schedule': timedelta(seconds=25),
         'args': (20, 20),
     }
 }
 
-app.conf.beat_schedule = {
-    'send_email': {
-        'task': 'celeryPractice.tasks.send_email',
-        'schedule': 1,
-    }
-}
+# app.conf.beat_schedule = {
+#     'send_email': {
+#         'task': 'celeryPractice.tasks.send_email',
+#         'schedule': 1,
+#     }
+# }
 
 # @app.task(bind=True, ignore_result=True)
 # def debug_task(self):
