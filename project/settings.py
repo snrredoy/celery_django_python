@@ -125,3 +125,12 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # celery settings
 CELERY_BROKER_URL = 'redis://localhost:6379/0'
 CELERY_RESULT_BACKEND = 'redis://localhost:6379/0'
+
+# Periodic task settings
+CELERY_BEAT_SCHEDULE = {
+    'every_10_seconds':{
+        'task': 'celeryPractice.tasks.add1',
+        'schedule': 10,
+        'args': (20, 20),
+    },
+}
