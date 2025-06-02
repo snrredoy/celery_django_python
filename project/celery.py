@@ -23,6 +23,21 @@ def add(x, y):
     sleep(10)
     return x + y
 
+app.conf.beat_schedule = {
+    'every_25_seconds': {
+        'task': 'celeryPractice.tasks.add1',
+        'schedule': 25,
+        'args': (20, 20),
+    }
+}
+
+app.conf.beat_schedule = {
+    'send_email': {
+        'task': 'celeryPractice.tasks.send_email',
+        'schedule': 1,
+    }
+}
+
 # @app.task(bind=True, ignore_result=True)
 # def debug_task(self):
 #     print(f'Request: {self.request!r}')
