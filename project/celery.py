@@ -2,6 +2,7 @@ import os
 from time import sleep
 from datetime import timedelta
 from celery import Celery
+from celery.schedules import crontab
 
 # Set the default Django settings module for the 'celery' program.
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'project.settings')
@@ -33,10 +34,26 @@ def add(x, y):
 # }
 
 # using timedelta
+# app.conf.beat_schedule = {
+#     'every_25_seconds': {
+#         'task': 'celeryPractice.tasks.add1',
+#         'schedule': timedelta(seconds=25),
+#         'args': (20, 20),
+#     }
+# }
+
+
+# using crontab
 app.conf.beat_schedule = {
     'every_25_seconds': {
         'task': 'celeryPractice.tasks.add1',
-        'schedule': timedelta(seconds=25),
+        # 'schedule': crontab(), # every minute
+        # 'schedule': crontab(minute='*/1'), # every minute
+        # 'schedule': crontab(minute='*/15'), # every 15 minutes
+        # 'schedule': crontab(hour='*/1'), # every hour
+        # 'schedule': crontab(minute='*/1', hour='*/1'), # every hour
+        # 'schedule': crontab(minute=0, hour=0), # every day at 00:00
+        'schedule': crontab(minute=0, hour=0, day_of_month=1), # every month at 00:00
         'args': (20, 20),
     }
 }
